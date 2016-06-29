@@ -1,0 +1,77 @@
+﻿@using SinetWifi.Common;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/Content/img/favicon.ico">
+    @Styles.Render("~/css")
+    @RenderSection("PageStyle", required: false)
+</head>
+<body>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src="~/Content/img/sinet-logo.png" />
+                </a>
+                <span class="navbar-brand btn-sidebar-toggle hidden-xs"><i class="fa fa-bars"></i></span>
+            </div>
+            <!-- /.navbar-header -->
+
+             @Html.RenderNavigationBar()
+
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    @Html.RenderSideBar()
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @if (!string.IsNullOrEmpty(ViewBag.Error))
+                        {  
+                            <div class="alert alert-danger">
+                                <button data-dismiss="alert" class="close" type="button">×</button>
+                                <strong><i class="icon-remove"></i> ผิดพลาด !!</strong> @ViewBag.Error             
+                            </div>        
+                        } 
+                        @RenderBody()
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <div id="mask-loading">กำลังโหลด..</div>  
+    <div id="mask-save">กำลังบันทึก..</div>  
+    @Html.Hidden("top" , Url.Content("~/content/img/up.png"))
+    @Scripts.Render("~/scripts")
+    @RenderSection("PageScript", required: false)
+</body>
+</html>

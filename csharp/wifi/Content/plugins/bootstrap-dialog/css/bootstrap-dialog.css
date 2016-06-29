@@ -1,0 +1,228 @@
+.bootstrap-dialog {
+
+}
+.bootstrap-dialog .modal-header {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.bootstrap-dialog .bootstrap-dialog-title {
+    color: #fff;
+    display: inline-block;
+}
+.bootstrap-dialog.type-default .bootstrap-dialog-title {
+    color: #333;
+}
+.bootstrap-dialog.size-normal .bootstrap-dialog-title {
+    font-size: 16px;
+}
+.bootstrap-dialog.size-large .bootstrap-dialog-title {
+    font-size: 24px;
+}
+.bootstrap-dialog .bootstrap-dialog-close-button {
+    float: right;
+    filter:alpha(opacity=90);
+    -moz-opacity:0.9;
+    -khtml-opacity: 0.9;
+    opacity: 0.9;
+}
+.bootstrap-dialog.size-normal .bootstrap-dialog-close-button {
+    font-size: 20px;
+}
+.bootstrap-dialog.size-large .bootstrap-dialog-close-button {
+    font-size: 30px;
+}
+.bootstrap-dialog .bootstrap-dialog-close-button:hover {
+    cursor: pointer;
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+}
+.bootstrap-dialog.size-normal .bootstrap-dialog-message {
+    font-size: 14px;
+}
+.bootstrap-dialog.size-large .bootstrap-dialog-message {
+    font-size: 18px;
+}
+.bootstrap-dialog.type-default .modal-header {
+    background-color: #fff;
+}
+.bootstrap-dialog.type-info .modal-header {
+    background-color: #5bc0de;
+}
+.bootstrap-dialog.type-primary .modal-header {
+    background-color: #428bca;
+}
+.bootstrap-dialog.type-success .modal-header {
+    background-color: #5cb85c;
+}
+.bootstrap-dialog.type-warning .modal-header {
+    background-color: #f0ad4e;
+}
+.bootstrap-dialog.type-danger .modal-header {
+    background-color: #d9534f;
+}
+.bootstrap-dialog .bootstrap-dialog-button-icon {
+    margin-right: 3px;
+}
+
+/**
+ * Icon animation
+ * Copied from font-awesome: http://fontawesome.io/
+ **/
+.icon-spin {
+    display: inline-block;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+    0% {
+    -moz-transform: rotate(0deg);
+}
+100% {
+    -moz-transform: rotate(359deg);
+}
+}
+@-webkit-keyframes spin {
+    0% {
+    -webkit-transform: rotate(0deg);
+}
+100% {
+    -webkit-transform: rotate(359deg);
+}
+}
+@-o-keyframes spin {
+    0% {
+    -o-transform: rotate(0deg);
+}
+100% {
+    -o-transform: rotate(359deg);
+}
+}
+@-ms-keyframes spin {
+    0% {
+    -ms-transform: rotate(0deg);
+}
+100% {
+    -ms-transform: rotate(359deg);
+}
+}
+@keyframes spin {
+    0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(359deg);
+}
+}
+/** End of icon animation **/
+
+/** Custom for Theam **/
+.bootstrap-dialog.type-primary .modal-content {
+	border:solid 5px #428bca;
+}
+.bootstrap-dialog.type-primary .modal-header {
+    border-radius: 0;
+	padding:5px;
+}
+.bootstrap-dialog.type-primary .bootstrap-dialog-title {
+	color: white;
+	font-weight: bold;
+	line-height: 15px;
+	font-family: arial,helvetica,verdana,sans-serif;
+	font-size: 13px;
+	padding: 1px 0 0;
+	text-transform: none;
+	vertical-align: top;
+}
+/** Custom for Theam - Button OK and Cancel **/
+.bootstrap-dialog.type-primary .modal-footer {
+    background-color: #dfeaf2;
+	text-align:center;
+	padding: 5px;
+}
+
+.bootstrap-dialog.type-primary .btn-msg-box {
+	width: 75px;
+	font-weight:bold;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px;
+	border-width: 1px;
+	border-style: solid;
+	background-image: none;
+}
+
+.bootstrap-dialog.type-primary .btn-msg-ok {
+	color:#fff;
+	background-color: #3892d3;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#4b9cd7),color-stop(50%,#3892d3),color-stop(51%,#358ac8),color-stop(100%,#3892d3));
+	background-image: -webkit-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: -moz-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: -o-linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+	background-image: linear-gradient(top,#4b9cd7,#3892d3 50%,#358ac8 51%,#3892d3);
+}
+
+.bootstrap-dialog.type-primary .btn-msg-ok:hover{
+	border-color:#157fcc;
+	background-image: none;
+	background-color:#3386c2;
+	background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#4792c8),color-stop(50%,#3386c2),color-stop(51%,#307fb8),color-stop(100%,#3386c2));
+	background-image:-webkit-linear-gradient(top,#4792c8,#3386c2 50%,#307fb8 51%,#3386c2);
+	background-image:-moz-linear-gradient(top,#4792c8,#3386c2 50%,#307fb8 51%,#3386c2);
+	background-image:-o-linear-gradient(top,#4792c8,#3386c2 50%,#307fb8 51%,#3386c2);
+	background-image:linear-gradient(top,#4792c8,#3386c2 50%,#307fb8 51%,#3386c2)
+}
+
+.bootstrap-dialog.type-primary .btn-msg-cancel {
+	color:#666;
+	border-color: #e1e1e1;
+	background-color: #f5f5f5;
+    padding: 4px 3px 4px 3px;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#f6f6f6),color-stop(50%,#f5f5f5),color-stop(51%,#e8e8e8),color-stop(100%,#f5f5f5));
+	background-image: -webkit-linear-gradient(top,#f6f6f6,#f5f5f5 50%,#e8e8e8 51%,#f5f5f5);
+	background-image: -moz-linear-gradient(top,#f6f6f6,#f5f5f5 50%,#e8e8e8 51%,#f5f5f5);
+	background-image: -o-linear-gradient(top,#f6f6f6,#f5f5f5 50%,#e8e8e8 51%,#f5f5f5);
+	background-image: linear-gradient(top,#f6f6f6,#f5f5f5 50%,#e8e8e8 51%,#f5f5f5);
+}
+
+.bootstrap-dialog.type-primary .btn-msg-cancel:hover {
+	border-color: #e1e1e1;
+	background-color:#ebebeb;
+	background-image: none;
+	background-image:-webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#ededed),color-stop(50%,#ebebeb),color-stop(51%,#dfdfdf),color-stop(100%,#ebebeb));
+	background-image:-webkit-linear-gradient(top,#ededed,#ebebeb 50%,#dfdfdf 51%,#ebebeb);
+	background-image:-moz-linear-gradient(top,#ededed,#ebebeb 50%,#dfdfdf 51%,#ebebeb);
+	background-image:-o-linear-gradient(top,#ededed,#ebebeb 50%,#dfdfdf 51%,#ebebeb);
+	background-image:linear-gradient(top,#ededed,#ebebeb 50%,#dfdfdf 51%,#ebebeb);
+}
+
+.msg-box .modal-dialog {
+    width: 300px;
+}
+.msg-box .bootstrap-dialog-message{
+	text-align:center;
+    word-wrap: break-word;
+
+}
+.msg-box .bootstrap-dialog-message i{
+	font-size: 32px;
+    color:#ccc;
+    margin-right:8px;
+    vertical-align:middle;
+}
+.msg-box .bootstrap-dialog-message i.icon-success{
+    color:#21c914;
+}
+.msg-box .bootstrap-dialog-message i.icon-error{
+    color:#ef1428;
+}
+.msg-box .bootstrap-dialog-message i.icon-warning{
+    color:#f39c12;
+}
+

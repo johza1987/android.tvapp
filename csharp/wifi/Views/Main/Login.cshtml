@@ -1,0 +1,92 @@
+﻿@model SinetWifi.Models.Login
+
+@{
+    Layout = null;
+    ViewBag.ReturnUrl = Request["ReturnUrl"];  
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Simat Wifi Management - เข้าสู่ระบบ</title>
+    <link rel="Favicon Icon" href="@Url.Content("~/Content/img/favicon.ico")"> 
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" />
+    <style type="text/css">
+
+    body {
+        background-color: #333 !important;
+        font-family:Tahoma;
+        font-size:14px;
+    }
+
+    .login {
+        padding: 0px;     
+        margin-top:100px;
+    }
+
+    .login .content {
+        background-color:#fff; 
+        width: 360px;
+        margin: 0px auto; 
+        padding: 15px 30px 15px 30px;  
+        -webkit-border-radius:50px 0px 50px 0;
+        -moz-border-radius:50px 0px 50px 0;
+        border-radius:50px 0px 50px 0;   
+    }
+
+    .login img {
+        margin-bottom: 15px;
+    } 
+            
+    .login .copyright {
+        text-align: center;
+        width: 250px;
+        margin: 0 auto; 
+        padding: 10px 10px 0 10px;
+        color: #999;
+        font-size: 11px;
+    }
+
+    .login .field-validation-error, .login .validation-summary-errors {
+        color:#B94A48;
+        font-size:12px;
+    }
+
+   .from-group {
+      margin-bottom: 20px;
+    }
+
+    </style>
+</head>
+<body>
+
+<div class="login">
+  <div class="content form-vertical">
+
+   @using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post)) 
+   {
+      <img src="@Url.Content("~/Content/img/logo.jpg")" alt="" /> 
+      <div class="from-group">                    
+            <input name="Username" class="input-block-level form-control" type="text" placeholder="Username" />  
+            @Html.ValidationMessageFor(m => m.Username)   
+      </div>
+      <div class="from-group">               
+            <input name="Password" class="input-block-level form-control" type="password" style="" placeholder="Password" />  
+            @Html.ValidationMessageFor(m => m.Password)   
+      </div>
+       @Html.ValidationSummary(true);
+      <div class="from-group">               
+            <button class="btn btn-lg btn-warning btn-block" type="submit">เข้าสู่ระบบ</button>  
+      </div>   
+   }
+
+  </div>
+
+  <div class="copyright">
+    2015 &copy; Simat Technologies.
+  </div>
+
+</div>
+</body>
+</html>

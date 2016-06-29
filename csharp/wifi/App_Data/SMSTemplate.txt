@@ -1,0 +1,1 @@
+[{"id":1,"title":"test","message":"Customer ID {1}, your SINET internet bill {2} baht is due within {3} (Sorry if you have paid already)"},{"id":2,"title":"ทดสอบ","message":"สวัสดี {1} Hello MailBit ,SMS"}]

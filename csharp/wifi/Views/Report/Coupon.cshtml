@@ -1,0 +1,167 @@
+﻿@model PagedList.IPagedList<SinetWifi.Models.UserinfoList>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Simat Wifi Management - รายงานการออกคูปอง";
+}   
+         
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i>รายงาน</li>
+    <li class="active">รายงานการออกคูปอง</li>
+</ol>
+                    
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="icon-magnifier"></i>&nbsp; ค้นหาจาก..
+            </div>
+            <div class="panel-body">
+               @using (Html.BeginForm(null, null, new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Get, new { id = "frmSearch", @class = "form-horizontal" }))
+               {
+                    <div class="col-md-5">
+                        <div class="form-group">
+                        <label class="col-md-3 control-label">วันที่เริ่มต้น</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" name="df" class="form-control datepicker" value="@ViewBag.DateFrom">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                        <label for="inputPassword" class="col-md-3 control-label">วันที่สิ้นสุด</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" name="dt"  class="form-control datepicker" value="@ViewBag.DateTo">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" id="btnSearch" class="btn btn-info col-xs-12"><i class="icon-magnifier"></i>  ค้นหา</button>
+                    </div>
+               } 
+            </div>
+        </div>
+    </div>
+</div>
+                        
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-layers"></i>&nbsp; รายงานการออกคูปอง ทั้งหมด (@Model.TotalItemCount) รายการ
+        <button type="button" id="btnExport" class="btn btn-info btn-xs pull-right"><i class="icon-arrow-down"></i>&nbsp;ส่งออก Excel</button>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:50px;">#</th>
+                        <th>Create Date</th>
+                        <th>Username</th>
+                        <th>ชื่อลูกค้า</th>
+                        <th>นามสกุล</th>
+                        <th>เบอร์ติดต่อ</th>
+                        <th>Email</th>
+                        <th>Ref 1</th>
+                        <th>Ref 2</th>
+                        <th>Package</th>
+                        <th class="text-right">ราคาต้นทุน</th>
+                        <th>หมายเหตุ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        @{
+                            if (Model != null)
+                            {
+                                int i = Model.FirstItemOnPage;
+
+                                foreach (var item in Model)
+                                {
+                                    <tr @(item.groupname.Equals(System.Configuration.ConfigurationManager.AppSettings["CouponCancel"].ToString()) ? "class=cancel" : "") >
+                                        <td class="text-center">@i</td>
+                                        <td>@item.creationdate.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                                        <td>@item.username</td>
+                                        <td>@item.firstname</td>
+                                        <td>@item.lastname</td>
+                                        <td>@item.mobilephone</td>
+                                        <td>@item.email</td>
+                                        <td>@item.ref1</td>
+                                        <td>@item.ref2</td>
+                                        <td>@item.packagename</td>         
+                                        <td class="text-right">@(double.Parse(item.packageprice).ToString("#,##0.00;($#,##0.00);0.00"))</td>
+                                        <td>
+                                            @{
+                                                if (item.groupname.Equals(System.Configuration.ConfigurationManager.AppSettings["CouponCancel"].ToString())) 
+                                                {
+                                                    <label class="text-danger" data-toggle="tooltip" data-placement="top" title="คูปองรหัสนี้ ถูกยกเลิกไปแล้ว">ยกเลิกแล้ว</label>
+                                                }
+                                            }
+                                        </td>  
+                                    </tr>
+                                    i++;
+                                }
+
+                                if (Model.TotalItemCount == 0)
+                                {                                    
+                                    <tr>
+                                        <td colspan="12" class="text-center">- ไม่มีรายการ -</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                </tbody>
+            </table>
+        </div>
+        <nav>           
+        @{
+            if (Model != null)
+            {
+                @Html.PagedListPager(Model, p => Url.Action("Coupon", new RouteValueDictionary() {
+                        { "p", p },
+                        { "df", (!string.IsNullOrEmpty(ViewBag.DateFrom)) ? ViewBag.DateFrom : string.Empty},
+                        { "dt", (!string.IsNullOrEmpty(ViewBag.DateTo)) ? ViewBag.DateTo : string.Empty}
+                    }),
+                    new PagedListRenderOptions
+                    {
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = false,
+                        LinkToFirstPageFormat = "← First",
+                        LinkToPreviousPageFormat = "Previous",
+                        LinkToNextPageFormat = "Next",
+                        LinkToLastPageFormat = "Last → " + Model.PageCount
+                    }
+                )        
+                <div class="pagination-info">
+                        <span class="icon-grid"></span> Showing @(Model.TotalItemCount < 1 ? 0 : @Model.FirstItemOnPage) to @Model.LastItemOnPage of @Model.TotalItemCount entries
+                </div>
+            }
+        }
+        </nav>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+@section PageStyle {
+}
+@section PageScript {
+<script type="text/javascript">
+$(function () {
+    $('#btnExport').click(function () {
+        var form = $('#frmSearch');
+        form.attr('action', 'ExportCouponToExcel');
+        form.submit();
+    });
+
+    $('#btnSearch').click(function (e) {
+        e.preventDefault();
+        var form = $('#frmSearch');
+        form.attr('action', 'Coupon');
+        form.submit();
+    });
+});
+</script>
+}

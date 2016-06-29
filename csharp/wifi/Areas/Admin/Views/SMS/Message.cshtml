@@ -1,0 +1,533 @@
+﻿@{
+    ViewBag.Title = "Simat Wifi Management - รายงานการออกคูปอง";
+    var SMSTemplate = (IEnumerable<SinetWifi.Models.SMSTemplate>)ViewData["SMSTemplate"];
+}   
+   
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i>รายงาน</li>
+    <li>SMS</li>
+    <li class="active">ส่งข้อความ</li>
+</ol>
+ 
+@using (Html.BeginForm("ImportFile", "SMS", FormMethod.Post, new { enctype = "multipart/form-data", id = "frmUpload", target = "UploadTarget", @class = "form-horizontal" }))
+{
+<div class="panel panel-default"  id="div-step-1">
+    <div class="panel-heading">
+        <i class="icon-envelope-letter"></i>&nbsp; 1. เลือกรูปแบบข้อความ
+        <button type="button" class="btn btn-success btn-xs pull-right" style="margin-left:5px;" data-toggle="modal" data-target="#SMSTemplateModal"><i class="icon-plus"></i>&nbsp;เพิ่มรูปแบบข้อความ</button>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:50px;">#</th>
+                        <th>ชื่อหัวข้อ</th>
+                        <th>ข้อความ</th>
+                        <th class="text-center">จำนวนตัวอักษร</th>
+                        <th class="text-center" style="width:70px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (SMSTemplate != null)
+                        {
+                            int i = 1;
+                                
+                            foreach (var item in SMSTemplate)
+                            {
+                                <tr>
+                                    <td class="text-center"><input type="radio" name="optSmsTemplate" value="@item.message"></td>
+                                    <td>@item.title</td>
+                                    <td>@item.message</td>
+                                    <td class="text-center">@item.message.Length</td>
+                                    <td class="text-center"> 
+                                        <span data-action="modified" data-id="@item.id" data-title="@item.title" data-message="@item.message" data-toggle="modal" data-target="#SMSTemplateModal" data-tooltip="true" data-placement="top" title="แก้ไข" class="btn btn-success btn-circle btn-xs btnUpdate">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </span>
+                                        <a href="@Url.Action("Delete", new { id = item.id })" data-tooltip="true" data-placement="top" title="ลบ" class="btn btn-danger btn-circle btn-xs btnDelete">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+
+                            if (SMSTemplate.Count() == 0)
+                            {                                    
+                                <tr>
+                                    <td colspan="4" class="text-center">- ไม่มีรายการ -</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {                          
+                            <tr>
+                                <td colspan="4" class="text-center">- ไม่มีรายการ -</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+                
+<div class="row" id="div-step-2">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="icon-cloud-upload"></i>&nbsp; 2. อัพโหลดไฟล์..
+            </div>
+            <div class="panel-body">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">เลือกไฟล์</label>
+                            <div class="col-md-9">
+                                <input type="file" id="file" name="file"  class="form-control" />
+                                <span class="help-block">สามารถอัพโหลดไฟล์เฉพาะนามสกุล .csv (Comma delimited) เท่านั้น</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" id="btnUpload" class="btn btn-info col-xs-12"><i class="icon-cloud-upload"></i>  Upload</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+} 
+
+<div class="panel panel-default" id="div-step-3">
+    <div class="panel-heading">
+        <i class="icon-grid"></i>&nbsp; 3. แสดงข้อความจากไฟล์อัพโหลด <span id="sms-preview"></span>
+        <button type="button" id="btnSendMessage" class="btn btn-success btn-xs pull-right" style="margin-left:5px;" disabled ><i class="glyphicon glyphicon-send"></i>&nbsp;ยืนยันการส่ง SMS</button>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive" style="height:390px;">
+            <table class="table table-striped table-bordered table-hover" id="tblSendMessage">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:50px;">#</th>
+                        <th>เบอร์โทรศัพท์</th>
+                        <th>ข้อความ</th>
+                        <th>ข้อผิดพลาด</th>
+                    </tr>
+                </thead>
+                <tbody>                            
+                    <tr>
+                        <td colspan="4" class="text-center">- ไม่มีรายการ -</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+<div class="panel panel-default" id="div-step-4">
+    <div class="panel-heading">
+        <i class="icon-bubbles"></i>&nbsp; 4. แสดงผลการส่ง SMS <span id="sms-result-preview"></span>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="table-responsive" style="height:390px;">
+            <table class="table table-striped table-bordered table-hover" id="tblResultSendMessage">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:50px;">#</th>
+                        <th>เบอร์โทรศัพท์</th>
+                        <th>ข้อความ</th>
+                        <th>สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="text-center">- ไม่มีรายการ -</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+
+
+<iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
+
+@using (Html.BeginForm("Create", "SMS", FormMethod.Post, new { id = "frmSMSTemplate" }))
+{ 
+    <div class="modal fade" id="SMSTemplateModal" tabindex="-1" role="dialog" aria-labelledby="SMSTemplateModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="SMSTemplateModalLabel"><i class="icon-envelope-letter"></i>&nbsp; SMS Template</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="title" class="control-label">ชื่อหัวข้อ:</label>
+                    <input type="hidden" class="form-control" id="id" name="id">
+                    <input type="text" class="form-control" id="title" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="message" class="control-label">ข้อความ:</label>
+                    <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                    <span>จำนวนความยาว: </span>
+                    <span class="text-required" id="msg-count">0</span>
+                    <span> อักษร</span> 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success pull-left" id="btnSave"><i class="glyphicon glyphicon-floppy-disk"></i> <span>บันทึกข้อความ</span></button>
+            </div>
+        </div>
+      </div>
+    </div>
+}
+
+@section PageStyle {
+}
+
+@section PageScript {
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#frmUpload').validate({
+            focusInvalid: false,
+            ignoreTitle: true,
+            rules: {
+                file: {
+                    required: true
+                },
+                optSmsTemplate: {
+                    required: true
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').addClass('has-error');
+            },
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');
+                $(e).remove();
+            },
+            submitHandler: function (form) {
+                $('#mask-save').show();
+                $('.btn').attr('disabled', 'disabled');
+                form.submit();
+            },
+            invalidHandler: function (form) {
+
+            }
+        });
+
+        $('#UploadTarget').load(function () {
+
+            $("#file").val("");
+            $('#mask-save').hide();
+            $('.btn').removeAttr('disabled');
+
+            var json = $.parseJSON($("#UploadTarget").contents().find("#jsonResult").text()).Data;
+
+            if (json.Status == false) {
+                BootstrapDialog.show({
+                    title: 'Message Box',
+                    message: json.Message,
+                    cssClass: 'msg-box',
+                    closable: false,
+                    buttons: [{
+                        label: 'OK',
+                        cssClass: Global.ClassBtnOk,
+                        action: function (dialog) {
+                            dialog.close();
+                        }
+                    }]
+                });
+                return;
+            }
+            else {
+
+                $('#sms-preview ,#sms-result-preview').text('');
+                $('#tblSendMessage tbody tr ,#tblResultSendMessage tbody tr').remove();
+                $('#tblResultSendMessage tbody').append("<tr><td colspan=\"4\" class=\"text-center\">- ไม่มีรายการ -</td></tr>");
+
+                if (json.Message != undefined) {
+                    if (json.Data != null) {
+                        $.each(json.Data, function (index, value) {
+                            $('#tblSendMessage tbody').append("<tr" + (value.error != '' ? ' class=has-error' : '') + "><td class=\"text-center\">" + (index + 1) + "</td><td>" + value.phonenumber + "</td><td>" + value.message + "</td><td class=\"text-required\">" + value.error + "</td></tr>")
+                        });
+
+                        var msgerror = "";
+                        var errortotal = $('#tblSendMessage tbody tr.has-error').length;
+
+                        if (errortotal > 0) {
+                            $('#btnSendMessage').attr('disabled', 'disabled');
+                            msgerror = "<span class=\"text-required\">และพบข้อผิดพลาด (" + errortotal + ") รายการ</span>";
+                        }
+                        else {
+                            $('#btnSendMessage').removeAttr('disabled');
+                        }
+
+                        $('#sms-preview').html(" ทั้งหมด (" + json.Data.length + ") ข้อความ " + msgerror);
+                    }
+                }
+            }
+
+            $('html, body').animate({
+                scrollTop: $("#div-step-2").offset().top - 10
+            }, 1000);
+        });
+
+        $('#frmSMSTemplate').validate({
+            focusInvalid: false,
+            ignoreTitle: true,
+            rules: {                
+                title: {
+                    required: true
+                },
+                message: {
+                    required: true
+                }
+            },
+            highlight: function (e) {
+                $(e).closest('.form-group').addClass('has-error');
+            },
+            success: function (e) {
+                $(e).closest('.form-group').removeClass('has-error');
+                $(e).remove();
+            },
+            submitHandler: function (form) {
+                $('#mask-save').show();
+                $('.btn').attr('disabled', 'disabled');
+                $.ajax({
+                    url: $(form).attr('action'),
+                    dataType: "json",
+                    type: 'POST',
+                    data: $(form).serialize(),
+                    success: function (response) {
+                        $('#SMSTemplateModal').modal('hide');
+                        BootstrapDialog.show({
+                            title: 'Message Box',
+                            message: response.Message,
+                            cssClass: 'msg-box',
+                            closable: false,
+                            buttons: [{
+                                label: 'OK',
+                                cssClass: Global.ClassBtnOk,
+                                action: function (dialog) {
+                                    dialog.close();
+                                    location.reload();
+                                }
+                            }]
+                        });
+                    },
+                    complete: function () {
+                        $('#mask-save').hide();
+                        $('.btn').removeAttr('disabled');
+                    }
+                });
+            },
+            invalidHandler: function (form) {
+
+            }
+        });
+
+        $("a.btnDelete").click(function (e) {
+            var $el = $(this);
+            e.preventDefault();
+            BootstrapDialog.show({
+                title: 'Message Box',
+                message: "<i class=\"fa fa-exclamation-triangle icon-warning\"></i>ยืนยันการลบรูปแบบข้อความใช่ไหม ?",
+                cssClass: 'msg-box',
+                buttons: [{
+                    label: 'OK',
+                    cssClass: Global.ClassBtnOk,
+                    action: function (dialog) {
+                        dialog.close();
+                        $.ajax({
+                            type: "POST",
+                            url: $el.attr("href"),
+                            data: "json",
+                            success: function (response) {
+                                BootstrapDialog.show({
+                                    title: 'Message Box',
+                                    message: response.Message,
+                                    cssClass: 'msg-box',
+                                    closable: false,
+                                    buttons: [{
+                                        label: 'OK',
+                                        cssClass: Global.ClassBtnOk,
+                                        action: function (dialog) {
+                                            dialog.close();
+                                            location.reload();
+                                        }
+                                    }]
+                                });
+                            },
+                            complete: function () { },
+                            error: function (jqXHR, textStatus, errorThrown) { }
+                        });
+                    }
+                }, {
+                    label: 'Cancel',
+                    cssClass: Global.ClassBtnCancel,
+                    action: function (dialog) {
+                        dialog.close();
+                    }
+                }]
+            });
+        });
+
+        $('#SMSTemplateModal').on('show.bs.modal', function (e) {
+            var button = $(e.relatedTarget);
+            var id = button.data('id');
+            var action = button.data('action');
+
+            if (action === 'modified') {
+                $('#id').val(button.data('id'));
+                $('#title').val(button.data('title'));
+                $('#message').val(button.data('message'));
+                $('#btnSave span').text(" อัพเดทข้อความ");
+                $('#frmSMSTemplate').attr('action', 'Update');
+                $('#msg-count').text(button.data('message').length);
+
+                
+            } else {
+                $('#id').val('0');
+                $('#title, #message').val('');
+                $('#btnSave span').text(" บันทึกข้อความ");
+                $('#frmSMSTemplate').attr('action', 'Create');
+                $('#msg-count').text("0");
+            }
+        });
+
+        $('textarea[name="message"]').on('keyup', function (e) {
+            $('#msg-count').text($(this).val().length);
+        });
+
+        $('#btnSendMessage').on('click', function (e) {
+
+            var isConfirm = false;
+            var $el = $(this);
+            e.preventDefault();
+            BootstrapDialog.show({
+                title: 'Message Box',
+                message: "<i class=\"fa fa-exclamation-triangle icon-warning\"></i>ยืนยันที่จะส่งข้อความใช่ไหม ?",
+                cssClass: 'msg-box',
+                onhidden: function (dialog)
+                {
+                    if (isConfirm === true)
+                    {
+                        $('.btn').attr('disabled', 'disabled');
+
+                        var data = $('#tblSendMessage tbody tr').map(function (i, v) {
+                            var $td = $('td', this);
+                            return {
+                                phonenumber: $td.eq(1).text(),
+                                message: $td.eq(2).text()
+                            }
+                        }).get();
+
+                        $('#sms-result-preview').text('');
+
+                        $.ajax({
+                            url: '@Url.Action("SendMessage")',
+                            async: false,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (response) {
+                                if (response.Message != undefined) {
+                                    if (response.Status == false) {
+                                        BootstrapDialog.show({
+                                            title: 'Message Box',
+                                            message: response.Message,
+                                            cssClass: 'msg-box',
+                                            closable: false,
+                                            buttons: [{
+                                                label: 'OK',
+                                                cssClass: Global.ClassBtnOk,
+                                                action: function (dialog) {
+                                                    dialog.close();
+                                                }
+                                            }]
+                                        });
+                                    }
+                                    else if (response.Status == true)
+                                    {
+                                        if (response.Data != null)
+                                        {
+                                            $('#tblResultSendMessage tbody tr').remove();
+                                            $.each(response.Data, function (index, value) {
+                                                $('#tblResultSendMessage tbody').append("<tr" + (value.results.status != 'OK' ? ' class=has-error' : '') + "><td class=\"text-center\">" + (index + 1) + "</td><td>" + value.phonenumber + "</td><td>" + value.message + "</td><td><span class=\"" + (value.results.status != 'OK' ? "label label-danger" : "label label-success") + "\">" + value.results.status + "</span></td></tr>")
+                                            });
+
+                                            var msgerror = "";
+                                            var errortotal = $('#tblResultSendMessage tbody tr.has-error').length;
+
+                                            if (errortotal > 0) {
+                                                msgerror = "<span class=\"text-required\">และพบข้อผิดพลาด (" + errortotal + ") รายการ</span>";
+                                            }
+
+                                            $('#sms-result-preview').html(" ทั้งหมด (" + response.Data.length + ") ข้อความ " + msgerror);
+
+                                            BootstrapDialog.show({
+                                                title: 'Message Box',
+                                                message: response.Message,
+                                                cssClass: 'msg-box',
+                                                closable: false,
+                                                buttons: [{
+                                                    label: 'OK',
+                                                    cssClass: Global.ClassBtnOk,
+                                                    action: function (dialog) {
+                                                        dialog.close();
+                                                        $('html, body').animate({
+                                                            scrollTop: $("#div-step-4").offset().top - 10
+                                                        }, 1000);
+                                                    }
+                                                }]
+                                            });
+                                        }
+                                    }
+                                }
+
+                                $('.btn').removeAttr('disabled');
+                                $('#mask-save').hide();
+                            },
+                            complete: function () { },
+                            error: function (jqXHR, textStatus, errorThrown) { }
+                        });
+                        // close ajax
+                    }
+                },
+                buttons: [{
+                    label: 'OK',
+                    cssClass: Global.ClassBtnOk,
+                    action: function (dialog) {
+                        isConfirm = true;
+                        $('#mask-save').show();
+                        dialog.close();
+                    }
+                }, {
+                    label: 'Cancel',
+                    cssClass: Global.ClassBtnCancel,
+                    action: function (dialog) {
+                        isConfirm = false;
+                        dialog.close();
+                    }
+                }]
+            });
+        });
+    });
+</script>
+}
+
