@@ -1,0 +1,1 @@
+[{"std_id":"ST0001","dsbtype_id":1,"year":"2557"},{"std_id":"ST0002","dsbtype_id":2,"year":"2557"},{"std_id":"ST0003","dsbtype_id":2,"year":"2557"},{"std_id":"ST0004","dsbtype_id":2,"year":"2557"}]

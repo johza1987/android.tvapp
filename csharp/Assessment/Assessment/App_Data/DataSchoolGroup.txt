@@ -1,0 +1,1 @@
+[{"scgroup_id":1,"scgroup_name":"เมืองสุรินทร์ 1"},{"scgroup_id":2,"scgroup_name":"เมืองสุรินทร์ 2"}]

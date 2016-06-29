@@ -1,0 +1,84 @@
+﻿@using Assessment.Models;
+@{
+    ViewBag.Title = "เวลาเปิด-ปิดระบบ"; 
+}
+
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="@Url.Action("SystemConfig")">ตั้งค่า</a></li>
+    <li class="active">เวลาเปิด-ปิดระบบ</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-notebook"></i>&nbsp; เวลาเปิด-ปิดระบบ
+        <a href="@Url.Action("SystemConfigCreate")" class="btn btn-success btn-xs pull-right"><i class="icon-plus"></i>&nbsp; เพิ่มข้อมูลเวลาเปิด-ปิดระบบ</a>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th style="width:100px">ปีการศึกษา</th>
+                        <th>วันเปิดระบบ</th>
+                        <th>วันปิดระบบ</th>
+                        <th class="text-center" style="width:80px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{                       
+                        if ((IEnumerable<SystemConfigModel>)ViewData["DataSystemConfig"] != null)
+                        {
+                            foreach (var item in (IEnumerable<SystemConfigModel>)ViewData["DataSystemConfig"])
+                            {
+                            <tr>
+                                <td>@item.conf_year</td>
+                                <td>@item.conf_dateopen</td>
+                                <td>@item.conf_dateclose</td>
+                                <td class="text-center">
+                                    <a href="#"><img src="~/Content/img/toolbar_delete_24.png" style="width:20px;" class="btnDelete" /></a>
+                                    <a href="@Url.Action("SystemConfigEdit", "Setting", new { id = "1" })"><img src="~/Content/img/toolbar_edit_green_24.png" style="width:20px;"  /></a>
+                                </td>
+                            </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+@section MyScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a > img.btnDelete").click(function () {
+                if (confirm("ยืนยันการลบข้อมูล ?")) {
+                }
+                return false;
+            });
+        });
+    </script>
+}

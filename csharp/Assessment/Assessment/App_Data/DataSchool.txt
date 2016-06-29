@@ -1,0 +1,1 @@
+[{"sc_id":"SC0001","username":"admin","password":"admin","sc_name":"บ้านโคกกระเพอ","sc_address":"สุรินทร์","sc_tel":"0845125414","sctype_id":1,"scgroup_id":1},{"sc_id":"SC0002","username":"admin2","password":"admin2","sc_name":"บ้านพันธุลี","sc_address":"สุรินทร์","sc_tel":"0845125414","sctype_id":2,"scgroup_id":2}]

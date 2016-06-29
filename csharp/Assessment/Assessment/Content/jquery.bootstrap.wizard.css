@@ -1,0 +1,188 @@
+﻿.bwizard-steps {
+	display: inline-block;
+	margin: 0; padding: 0;
+	background: #fff }
+	.bwizard-steps .active {
+		color: #fff;
+		background: #007ACC }
+	.bwizard-steps .active:after {
+		border-left-color: #007ACC }
+	.bwizard-steps .active a {
+		color: #fff;
+		cursor: default }
+	.bwizard-steps .label {
+		position: relative;
+		top: -1px;
+		margin: 0 5px 0 0; padding: 1px 5px 2px }
+	.bwizard-steps .active .label {
+		background-color: #333;}
+	.bwizard-steps li {
+		display: inline-block; position: relative;
+		margin-right: 5px;
+		padding: 12px 17px 10px 30px;
+		*display: inline;
+		*padding-left: 17px;
+		background: #efefef;
+		line-height: 18px;
+		list-style: none;
+		zoom: 1; }
+	.bwizard-steps li:first-child {
+		padding-left: 12px;
+		-moz-border-radius: 4px 0 0 4px;
+		-webkit-border-radius: 4px 0 0 4px;
+		border-radius: 4px 0 0 4px; }
+	.bwizard-steps li:first-child:before {
+		border: none }
+	.bwizard-steps li:last-child {
+		margin-right: 0;
+		-moz-border-radius: 0 4px 4px 0;
+		-webkit-border-radius: 0 4px 4px 0;
+		border-radius: 0 4px 4px 0; }
+	.bwizard-steps li:last-child:after {
+		border: none }
+	.bwizard-steps li:before {
+		position: absolute;
+		left: 0; top: 0;
+		height: 0; width: 0;
+		border-bottom: 20px inset transparent;
+		border-left: 20px solid #fff;
+		border-top: 20px inset transparent;
+		content: "" }
+	.bwizard-steps li:after {
+		position: absolute;
+		right: -20px; top: 0;
+		height: 0; width: 0;
+		border-bottom: 20px inset transparent;
+		border-left: 20px solid #efefef;
+		border-top: 20px inset transparent;
+		content: "";
+		z-index: 2; }
+	.bwizard-steps a {
+		color: #333 }
+	.bwizard-steps a:hover {
+		text-decoration: none }
+.bwizard-steps.clickable li:not(.active) {
+	cursor: pointer }
+.bwizard-steps.clickable li:hover:not(.active) {
+	background: #ccc }
+.bwizard-steps.clickable li:hover:not(.active):after {
+	border-left-color: #ccc }
+.bwizard-steps.clickable li:hover:not(.active) a {
+	color: #08c }
+@media (max-width: 480px) { 
+	/* badges only on small screens */
+	.bwizard-steps li:after,
+	.bwizard-steps li:before {
+		border: none }
+	.bwizard-steps li,
+	.bwizard-steps li.active,
+	.bwizard-steps li:first-child,
+	.bwizard-steps li:last-child {
+		margin-right: 0;
+		padding: 0;
+		background-color: transparent }
+}
+
+/* wizard-steps Element Style */
+ul.wizard-steps li a {
+  display:block;
+  position:relative;
+/*  float:left;*/
+  margin:0px 0px 10px 10px;
+  padding:3px;
+  height:64px;
+  /* width:230px;*/
+  cursor:text;   
+  text-decoration: none;
+  outline-style:none;
+  -moz-border-radius  : 5px;
+  -webkit-border-radius: 5px;
+  z-index:99;
+}
+
+ul.wizard-steps li:first-child a {
+    margin-left:0px;  
+}
+
+@media (max-width: 768px) { 
+    ul.wizard-steps li a {
+        margin:0px 0px 10px 0px; 
+    }
+}
+
+ul.wizard-steps li a .stepNumber{
+  position:relative;
+  float:left;
+  width:40px;
+  text-align: center;
+  padding:5px;
+  padding-top:0;
+  font: bold 45px Verdana, Arial, Helvetica, sans-serif;
+}
+
+ul.wizard-steps li a .stepDesc{
+  position:relative;
+  display:block;
+  float:left;
+  text-align: left;
+  padding:5px;
+  font: bold 20px Verdana, Arial, Helvetica, sans-serif;
+}
+
+ul.wizard-steps li a .stepDesc small{
+  font: normal 12px Verdana, Arial, Helvetica, sans-serif;
+}
+
+ul.wizard-steps li a, ul.wizard-steps > li > a:hover, ul.wizard-steps > li > a:focus { 
+  color:#CCCCCC;  
+  background: #F8F8F8;
+  border: 1px solid #CCC;  
+}
+
+ul.wizard-steps > li.active > a, ul.wizard-steps > li.active > a:hover, ul.wizard-steps > li.active > a:focus {
+  color:#F8F8F8;
+  background: #EA8511; 
+  border: 1px solid #EA8511;
+}
+
+ul.wizard-steps li.complete a {
+  color:#FFF;  
+  background: #8CC63F;  
+  border: 1px solid #8CC63F; 
+}
+
+ul.wizard-steps li.disabled a {
+  color:#CCCCCC;  
+  background: #F8F8F8;
+  border: 1px solid #CCC;  
+}
+
+ul.wizard-steps li.error a {
+  color:#6c6c6c;  
+  background: #f08f75;
+  border: 1px solid #fb3500;     
+}
+
+.wizard-btn li.btn-next a {
+  color:#fff;
+  background-color:#5bc0de;
+  border: 1px solid #46b8da;  
+}
+
+.wizard-btn li.btn-next a:hover {
+  color:#fff;
+  background-color:#31b0d5;
+  border: 1px solid #269abc;  
+}
+
+.wizard-btn li.btn-save a {
+  color:#fff;
+  background-color:#8CC63F;
+  border: 1px solid #8CC63F;  
+}
+
+.wizard-btn li.btn-save a:hover {
+  color:#fff;
+  background-color:#80b53a;
+  border: 1px solid #80b53a;  
+}

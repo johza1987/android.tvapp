@@ -1,0 +1,1 @@
+[{"dsbtype_id":1,"dsbtype_name":"บกพร่องทางการมองเห็น"},{"dsbtype_id":2,"dsbtype_name":"บกพร่องทางการได้ยิน"}]

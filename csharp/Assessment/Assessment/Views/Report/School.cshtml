@@ -1,0 +1,94 @@
+﻿@using Assessment.Models;
+@{
+    ViewBag.Title = "รายงานรายโรงเรียน";
+}
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="@Url.Action("Zone")">รายงาน</a></li>
+    <li class="active">รายงานรายโรงเรียน</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-bar-chart"></i>&nbsp; รายงานรายโรงเรียน
+        <a href="@Url.Action("ExportSchoolToExcel")" class="btn btn-success btn-xs pull-right"><i class="glyphicon glyphicon-save"></i>&nbsp; ส่งออก Excel</a>
+    </div>
+
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th style="width:40px" class="text-center">ลำดับ</th>
+                        <th>ชื่อสกุล</th>
+                        <th>เลขบัตรประชาชน</th>
+                        <th>อายุ</th>
+                        <th>ระดับชั้น</th>
+                        <th>ผลการประเมิน</th>
+                        <th>เอกสารรับรอง</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td>
+                        <td>ด.ช.กฤษณพล ชมชื่น</td>
+                        <td>1329901496611</td>
+                        <td>6 ปี</td>
+                        <td>ป.1</td>
+                        <td>1 : บกพร่องทางการเห็น</td>
+                        <td>สมุดประจำตัว</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">2</td>
+                        <td>ด.ญ.นลิน เวชสิทธิ์</td>
+                        <td>1209000232998</td>
+                        <td>6 ปี</td>
+                        <td>ป.1</td>
+                        <td>2 : บกพร่องทางการได้ยิน</td>
+                        <td>ไม่มี</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">3</td>
+                        <td>ด.ช.สมชาย ลาลา</td>
+                        <td>1341500110857</td>
+                        <td>7 ปี</td>
+                        <td>ป.2</td>
+                        <td>3 : บกพร่องสติปัญญา</td>
+                        <td>ไม่มี</td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+     
+</div>
+<!-- /.panel -->
+@section MyScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}

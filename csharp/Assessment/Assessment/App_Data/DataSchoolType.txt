@@ -1,0 +1,1 @@
+[{"sctype_id":1,"sctype_name":"ประถมศึกษา"},{"sctype_id":2,"sctype_name":"มัธยมศึกษา"}]

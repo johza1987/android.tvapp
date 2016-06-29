@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "เพิ่มข้อมูลเครือข่าย"; 
+}
+
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="@Url.Action("Index")">จัดการข้อมูลโรงเรียน</a></li>
+    <li class="active">เพิ่มข้อมูลเครือข่าย</li>
+</ol>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="icon-star"></i>&nbsp; เพิ่มข้อมูลเครือข่าย
+            </div>
+            <div class="panel-body">
+                 <form role="form">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>ชื่อเครือข่าย</label>
+                                <input class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-floppy-disk"></i>  บันทึกข้อมูล</button>
+                            <button type="reset" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i>  ล้างข้อมูล</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->

@@ -1,0 +1,116 @@
+﻿@using Assessment.Models;
+@{
+    ViewBag.Title = "รายชื่อคุณครู";
+}
+
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="@Url.Action("Index")">จัดการข้อมูลคุณครู</a></li>
+    <li class="active">รายชื่อคุณครู</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-notebook"></i>&nbsp; รายชื่อคุณครู
+        <a href="@Url.Action("Create")" class="btn btn-success btn-xs pull-right"><i class="icon-plus"></i>&nbsp; เพิ่มข้อมูลคุณครู</a>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th style="width:100px">รหัสครู</th>
+                        <th>ชื่อ-สกุล</th>
+                        <th>ชั้นที่สอน</th>
+                        <th>เลขที่ใบวุฒิบัตรผู้ประเมิน</th>
+                        <th>เบอร์โทร</th>
+                        <th class="text-center" style="width: 80px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{                       
+                        if ((IEnumerable<TeacherModel>)ViewData["GetDataTeacher"] != null)
+                        {
+                            foreach (var item in (IEnumerable<TeacherModel>)ViewData["GetDataTeacher"])
+                            {
+                        <tr>
+                            <td>@item.tc_id</td>
+                            <td>@item.tc_firstname</td>
+                            <td>@item.tc_grade</td>
+                            <td>@item.tc_certificate</td>
+                            <td>@item.tc_tel</td>
+                            <td class="text-center">
+                                <a href="#">
+                                    <img src="~/Content/img/toolbar_delete_24.png" style="width: 20px;" class="btnDelete" data-id="@item.tc_id" /></a>
+                                <a href="@Url.Action("Edit", "Teacher", new { id = "1" })">
+                                    <img src="~/Content/img/toolbar_edit_green_24.png" style="width: 20px;" /></a>
+                            </td>
+                        </tr>
+                            }
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+            <nav>
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+</div>
+<!-- /.panel -->
+@section MyScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a > img.btnDelete").click(function () {
+                if (confirm("ยืนยันการลบข้อมูล ?")) {
+                    alert($(this).data("id"));
+                }
+                return false;
+            });
+        });
+
+
+
+        //$(".imgDelete").click(function () {
+        //    var id = $(this).closest("tr").find(".id").text();
+
+        //    BootstrapDialog.confirm({
+        //        title: 'แจ้งเตือน',
+        //        message: 'ยืนยันการลบ?',
+        //        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+        //        closable: true, // <-- Default value is false
+        //        draggable: true, // <-- Default value is false
+        //        btnCancelLabel: 'ยกเลิก', // <-- Default value is 'Cancel',
+        //        btnOKLabel: 'ตกลง', // <-- Default value is 'OK',
+        //        btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+        //        callback: function (result) {
+        //            // result will be true if button was click, while it will be false if users close the dialog directly.
+        //            if (result) {
+        //                alert('OK');
+        //            }
+        //        }
+        //    });
+        //});
+    </script>
+}

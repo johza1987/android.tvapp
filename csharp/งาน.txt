@@ -1,0 +1,118 @@
+# สวัสดีครับ ผมชื่อ นายอานัฐ ทองปน อายุ 28 ปี จบการศึกษาระดับปริญญาตรี จากมหาวิทยาลัยเทคโนโลยีราชมงคล อิสาน นครราชสีมา สาขาวิศวกรรมคอมพิวเตอร์
+ปัจจุบันทำงานอยู่ที่บริษัท ไซแมทเทคโนโลยี จำกัด (มหาชน) ตำแหน่ง Senior .Net Web Programmer ครับ
+ประสบการณ์การทำงานประมาณ 5 ปี ครับ เกี่ยวกับสายงาน .Net Web Programmer 
+งานหลักที่ออกแบบและพัฒนาที่ผ่านมา จะเป็นเว็ปแอพพลิเคชั่น เป็นหลัก และอาจจะมี Window Service , Web Service บ้างตามความเหมาะสมของแต่ละส่วนงานที่ต้องใช้
+เทคโนโลยีและภาษาที่ใช้ในการพัฒนาแอพลิเคชัน คือ ภาษา C# และ ASP.Net MVC ,  Entity Framework กับฐานช้อมูล SQL Server  และรายงานใช้ Crytals Report
+
+โปรเจคปัจจุบันที่ทำอยู่
+โปรเจคหลัก คือ เว็ปแอพพลิเคชั่นที่พัฒนาขึ้นเพื่อสนับสนุนการดำเนินงานและบริงานงานของธุรกิจอินเตอร์เน็ต 
+ผู้ใช้งานจะมีผู้จัดการแต่ละสาขา พนักงงานตาม shop และออฟฟิตสาขา ต่างจังหวัด เช่น โคราช ขอนแก่น เชียงใหม่ และส่วนกลาง กทม. ปริมณฑล
+ตัวเว็ปแอพพลิเคชั่นจะเป็นระบบที่ถูกพัฒนาขึ้นเฉพาะ เพื่อใช้สำหรับงานของธุรกิจอินเตอร์เน็ต และจะมีส่วนที่ต้องประยุกต์ใช้กับ SAP B1 PL8.8 ซึ่งเป็นระบบหลักของบริษัท
+โดยผู้ใช้งานจะเป็นคนนำเข้าข้อมูลสู่ส่วนกลางที่ตั้งอยู่ กทม. ผ่านทางเว็ปแอพพลิชั่นที่ได้พัฒนาขึ้น อย่างเช่น การสร้างข้อมูลลูกค้า ที่มาสมัครใช้งานอินเตอร์เน็ต การรับชำระเงิน ค่าอินเตอร์เน็ต 
+ก็จะเป็นการสร้างข้อมูลใน SAP แต่ใช้งานผ่านหน้าเว้ปแอพพลิเคชั่นที่เราพัฒนาขึ้น โดยออกแบบให้คนใช้งานได้ใช้เฉพาะส่วนที่ต้องทำงานจริงๆ 
+และการทำ ออโทไล้ ก็จะจัดการที่เว็ปแอพพลิชั่น แทนครับ
+
+- บริษัท CSD Solution คือ บริษัทที่ บริการ และ ให้คำปรึกษา พร้อมทั้งออกแบบและพัฒนาระบบด้วยผลิตภัณ K2 Black Peral และ Microsoft Share point
+และบริการออกแบบและพัฒนาเว็ปไซต์ ด้วยเทคโนโลยีที่ทันสมัย
+
+- บริษัท iConext อ่านว่า ไอ-โค-เน็กซ์ เป็นซอฟแวร์เฮ้าส์ลูกครึ่งไทยญี่ปุ่น 
+ที่ให้บริการและพัฒนาและดูแลซอฟแวร์ 
+และบริการเกี่ยวกับ
+IT System Consulting Service
+IT Outsourcing Services
+
+
+
+สำหรับเว็ปแอพพลิเคชั่นในฝั่งของ Client จะใช้ Jquery และ Bootstrap สำหรับช่วยเรื่องงานเกี่ยวกับ UI , 
+ส่วนฐานข้อมูลใช้ SQL Server และตัวทำรายงานใช้ Crytals Report
+
+หน้าที่ความรับผิดชอบ คือ
+•ออกแบบและพัฒนาแอพลิเคชัน เพื่อตอบสนองการแก้ปัญหาทางธุรกิจและความต้องการของลูกค้า
+•พัฒนาแอพลิเคชันเพื่อสนับสนุนการดำเนินงาน และตามความต้องการของโครงงานในธุรกิจ
+•พัฒนาและบำรุงรักษาซอฟต์แวร์บนแพลตฟอร์ม Microsoft .NET Framework
+•ร่วมงานกับทีมงาน เพื่อที่จะประเมินการพัฒนาแผน ตารางเวลาและการปฏิบัติงานตามกำหนดแผนให้สำเร็จ
+
+
+Resolves day-to-day production issues.
+
+Hello , I am Anat Thog pon  , Nice to meet you today
+My nickname is joh. I am 28 years old.
+I graduated from Raxxxx in Degree Becheler of Engineering
+I Studied Computer Engineering
+Currently I work at Simat xxxx. I am as a Senior .Net Webxxxx
+I have 5 years of experience in .Net Web Deverlop
+I' m sorry some sentence may be incorrect and not understand.
+My English is not verry good. But I have been tring improve it.
+OK ! You can look the other experience and other detail about me in my a resume.
+
+But now I have the  job. I want to focus on my job and my career, in a programmer, I want to do it well.
+แต่ตอนนี้ผมมีงานของฉัน ผมอยากจะโฟกัสในงานของฉันและอาชีพของฉันในโปรแกรมเมอร์ผมอยากจะทำมันให้ดี
+
+I want to further my career. and I am looking bigger challenges and new experiences.
+ไอ ว๊อน ทู เฟอเท่อ 
+
+Can you say that again please ?
+
+Thank you very much for this opportunity and i hope to see you again soon.
+ออฟพอทิวนิตี้
+
+I had no plan in the next five years. But Now
+My goal เป้าหมาย
+My goal now is to work for a good company where I can build a career.
+
+ทำไมคุณถึงเหมาะกับตำแหน่งนี้
+I have experince in a programming  in .Net Web deverlop. and I have worked as a .Net Web Programmer for 5 years
+
+It's nice to meet you
+
+Strength:
+I think I am a hard worker and can work under pressure.
+My Strong point is I am detail oriented so i am good at programming 
+
+My main job is to develop web application for support company business and customer requirement 
+Maintenace Software and Product Issue Day to day
+
+About my personalities I am a hard worker and who works well with everyone.
+In my free time ,i enjoy listening to music and play internet
+
+After working there for 3 years , I was promoted to be Senior.Net WebProgrammeer
+I have been working there for 4 years now.
+
+I know here is 
+My main job is to develop a web application 
+.NET Core is a new cross-platform .NET product
+
+
+ประสบการณ์การทำงานเกี่ยวกับสายงาน .Net Web Programmer ประมาณ 5 ปี ครับ
+แอพลิเคชันที่พัฒนาในโปรเจคที่ผ่านมาและในปัจจุบัน จะเป็นเว็ปแอพพลิเคชั่น เป็นหลัก และอาจจะมี Window Service , Web Service บ้างตามความเหมาะสมของแต่ละส่วนงานที่ต้องใช้
+เทคโนโลยีและภาษาที่ใช้ในการพัฒนาแอพลิเคชัน คือ ภาษา C# และ ASP.Net MVC , สำหรับเว็ปแอพพลิเคชั่นในฝั่งของ Client จะใช้ Jquery และ Bootstrap สำหรับช่วยเรื่องงานเกี่ยวกับ UI , 
+ส่วนฐานข้อมูลใช้ SQL Server และตัวทำรายงานใช้ Crytals Report
+
+ปัจจุบันยังคงทำงานอยู่ที่บริษัท ไซแมทเทคโลยีจำกัด มหาชน ตำแหน่ง Senior .Net Web Programmer
+หน้าที่ความรับผิดชอบ คือ
+•ออกแบบและพัฒนาแอพลิเคชัน เพื่อตอบสนองการแก้ปัญหาทางธุรกิจและความต้องการของลูกค้า
+•พัฒนาแอพลิเคชันเพื่อสนับสนุนการดำเนินงาน และตามความต้องการของโครงงานในธุรกิจ
+•พัฒนาและบำรุงรักษาซอฟต์แวร์บนแพลตฟอร์ม Microsoft .NET Framework
+•ร่วมงานกับทีมงาน เพื่อที่จะประเมินการพัฒนาแผน ตารางเวลาและการปฏิบัติงานตามกำหนดแผนให้สำเร็จ
+
+ส่วนรายละเอียดและประสบการณ์การทำงานอื่นๆสามารถดูได้ใน Resume  เพิ่มเติม ครับ
+ขอบคุณครับผม
+
+โปรเจคปัจจุบันที่ทำอยู่
+โปรเจคหลัก คือ เว็ปแอพพลิเคชั่นสำหรับสนับสนุนการดำเนินงานและบริงานงานของธุรกิจอินเตอร์เน็ต 
+โดยจะมีทั้งระบบงานที่พัฒนาขึ้นใหม่ที่เกียวข้องโดยตรงกับธุรกิจ และระบบงานที่ประยุกต์เพื่อใช้ร่วมกับ  SAP B1 PL8.8 ในที่นี้ผมขอเรียกว่า SAP ซึ่งเป็นระบบ Core ของบริษัทอยุ่แล้วครับ 
+เช่น การสร้าง ใบแจ้งหนี้ จะเป็นการสร้างผ่านเว็ปแอพพลิเคชั่นที่เราพัฒนาขึ้น แต่จะเป็นการสร้างข้อมูลเพื่อนำเข้าระบบของ SAP โดยใช้ SAP SDK ในส่วนของไลบรารี่ ที่เป็น DI API  เป็นภาษา (C #) 
+รายละเอียดของเว็ปแอพพลิเคชั่น จะเกี่ยวข้องกับ โมดูล คร่าวๆ คือ 
+, Register
+, Business Partner
+, Service Call
+, Invoice
+, Promotion
+, Commission
+, Inventory
+, Payment 
+, Email 
+, SMS
+and Report เป็นต้น
+และอาจจะมีส่วนของ Window Service เกี่ยวกับการ ออกค่าใช้จ่ายอัตโนมัติ , การส่ง EMAIL และ SMS อัตโนมัติ
+และ มีโปรเจคอื่นๆ ที่เป็นเว็บแอพพลิเคสำหรับซัพพอร์ตลูกค้า (E-Service) การรับชำระผ่าน Online Payment ผ่านช่องทาง ของ  third party ต่างๆ, เว็บแอพพลิเคสำหรับซัพพอร์ตตัวแทนจำหน่ายและ Outsource ครับ

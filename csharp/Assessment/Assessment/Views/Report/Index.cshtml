@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "รายงาน"; 
+}
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="#">รายงาน</a></li>
+    @* <li class="active">Blank</li>*@
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-notebook"></i>&nbsp; ออกรายงาน
+                              
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <div class="row">
+                <div class="col-lg-6">
+                    <form role="form" method="post" action="@Url.Action("TestExportToExcel", "Report")">
+                        <div class="form-group">
+                            <label>รายงาน</label>
+                            <select class="form-control" name="Type">
+                                <option>รายงานรายโรงเรียน</option>
+                                <option>ด.ญ.</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Export</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

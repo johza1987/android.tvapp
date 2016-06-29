@@ -1,0 +1,91 @@
+﻿@using Assessment.Models;
+@{
+    ViewBag.Title = "ข้อมูลประเมิน";
+}
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="#">ข้อมูลประเมิน</a></li>
+    <li class="active">รายการใบประเมิน</li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-notebook"></i>&nbsp; รายการใบประเมิน
+        <a href="@Url.Action("Create")" class="btn btn-success btn-xs pull-right"><i class="icon-plus"></i>&nbsp; เพิ่มข้อมูลใบประเมิน</a>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th style="width:120px">รหัสใบประเมิน</th>
+                        <th>นักเรียนที่ประเมิน</th>
+                        <th>คุณครูผู้ประเมิน</th>
+                        <th>ประเภทแบบประเมิน</th>
+                        <th>คะแนนที่ได้</th>
+                        <th>ผลการประเมิน</th>
+                        <th class="text-center" style="width:100px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{                       
+                        if ((IEnumerable<AssessmentModel>)ViewData["GetDataAssessment"] != null)
+                        {
+                            foreach (var item in (IEnumerable<AssessmentModel>)ViewData["GetDataAssessment"])
+                            {
+                            <tr>
+                                <td>@item.ass_id</td>
+                                <td>@item.std_id</td>
+                                <td>@item.tc_id</td>
+                                <td>บกพร่องทางการมองเห็น</td>
+                                <td>@item.ass_score</td>
+                                <td>@item.ass_result</td>
+                                <td class="text-center">
+                                    <a href="#"><img src="~/Content/img/toolbar_delete_24.png" style="width:20px;" class="btnDelete" /></a>
+                                    <a href="#"><img src="~/Content/img/toolbar_edit_green_24.png" style="width:20px;"  /></a>
+                                    <a href="@Url.Action("PrintAssemssment", "Assessment")"><img src="~/Content/img/toolbar_print_24.png" style="width:20px;" /></a>
+                                </td>
+                            </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+     
+</div>
+<!-- /.panel -->
+@section MyScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a > img.btnDelete").click(function () {
+                if (confirm("ยืนยันการลบข้อมูล ?")) {
+                }
+                return false;
+            });
+        });
+    </script>
+}

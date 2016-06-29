@@ -1,0 +1,150 @@
+﻿@using Assessment.Models;
+@{
+    ViewBag.Title = "รายงานรายโรงเรียน";
+}
+<br />
+<ol class="breadcrumb">
+    <li><i class="icon-grid">&nbsp; </i><a href="/">หน้าหลัก</a></li>
+    <li><a href="@Url.Action("Zone")">รายงาน</a></li>
+    <li class="active">โรงเรียนที่คัดกรอง</li>
+</ol>
+
+@*<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="icon-magnifier"></i>&nbsp; ค้นหาจาก..
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                        <label class="col-md-3 control-label">เครือข่าย</label>
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>ทั้งหมด</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                        <label for="inputPassword" class="col-md-3 control-label">โรงเรียน</label>
+                        <div class="col-md-9">
+                            <select class="form-control">
+                                <option>ทั้งหมด</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-info col-xs-12"><i class="icon-magnifier"></i>  ค้นหา</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+  </div>
+</div>*@
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <i class="icon-bar-chart"></i>&nbsp; โรงเรียนที่คัดกรอง
+        <a href="@Url.Action("ExportZoneToExcel")" class="btn btn-success btn-xs pull-right"><i class="glyphicon glyphicon-save"></i>&nbsp; ส่งออก Excel</a>
+    </div>
+
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper">
+            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+               <thead>
+                    <tr>
+                        <th rowspan="2" style="width:100px;" class="text-center">รหัสโรงเรียน</th>
+                        <th rowspan="2">โรงเรียน</th>
+                        <th rowspan="2">เครือข่าย</th>
+                        <th rowspan="2">อำเภอ</th>
+                        <th colspan="9" class="text-center">ประเภทความพิการ</th>
+                        <th rowspan="2" style="width:80px;" class="text-center">รวม</th>
+                        <th rowspan="2">ประเภทโรงเรียน</th>
+                        
+                    </tr>
+                    <tr>
+                        <th class="text-center">1</th>
+                        <th class="text-center">2</th>
+                        <th class="text-center">3</th>
+                        <th class="text-center">4</th>                        
+                        <th class="text-center">5</th>
+                        <th class="text-center">6</th>
+                        <th class="text-center">7</th>
+                        <th class="text-center">8</th>
+                        <th class="text-center">9</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">SC0001</td>
+                        <td>บ้านโคกกระเพอ</td>
+                        <td>เครือข่ายเมือสุรินทร์ 1</td>
+                        <td>เมืองสุรินทร์</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">2</td>
+                        <td>ประถมศึกษา</td>
+                    </tr>                    
+                    <tr>
+                        <td class="text-center">SC0002</td>
+                        <td>บ้านตะตึงไถง</td>
+                        <td>เครือข่ายเมือสุรินทร์ 2</td>
+                        <td>เมืองสุรินทร์</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">1</td>
+                        <td class="text-center">2</td>
+                        <td>ขยายโอกาส</td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- /.panel-body -->
+     
+</div>
+<!-- /.panel -->
+@section MyScripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}
