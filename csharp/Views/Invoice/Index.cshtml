@@ -1,0 +1,795 @@
+﻿@using InternetAccountModel.EDM
+@using WebExtension.Models;
+@{
+    ViewBag.Title = "รายการใบแจ้งหนี้";
+    string controller = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["controller"];
+    string action = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["action"];
+    string value = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["id"];
+    string currentDate = DateTime.Now.ToString("dd/MM/yyyy");
+    string dueDate = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy");
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <a href="@Url.Content(Shared.MainUrl)">หน้าหลัก</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>@ViewBag.Title</span>
+        </li>
+    </ul>
+    <div class="page-toolbar">
+        <button class="btn blue-madison pull-rigth" type="button" id="btn-add">สร้างใบแจ้งหนี้ <i class="fa fa-plus"></i></button>
+    </div>
+</div>
+<h3 class="page-title"></h3>
+<div class="messageArea"></div>
+<div class="row margin-top-20">
+    <div class="col-md-12">
+        <form class="form-horizontal" role="form" action="javascript:;" id="form-search" method="POST" enctype="multipart/form-data">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-magnifier font-yellow"></i>
+                        <span class="caption-subject font-yellow bold uppercase">Criteria</span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="collapse" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="portlet-body form">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">จังหวัด</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" multiple="multiple" name="ProvinceCode">
+                                                @{
+                                                    var area = (List<Areas>)ViewBag.Area ?? new List<Areas>();
+                                                    foreach (var r in area)
+                                                    {
+                                                        <option value="@r.AreaCode">@r.AreaName</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">สถานะใบแจ้งหนี้</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control select2" multiple="multiple" name="Status">
+                                                <option value="O" data-style="badge badge-info bg-green-meadow badge-roundless">Open</option>
+                                                <option value="C" data-style="badge badge-default badge-roundless">Cancel</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">วันที่สร้าง</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" style="z-index: auto !important" name="StartDate" data-date-language="th-th">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn default set-date"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4">ถึงวันที่</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker"  style="z-index: auto !important" name="EndDate" data-date-language="th-th">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn default set-date"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">ค้นหา</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" placeholder="" name="Query">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4"></label>
+                                        <div class="col-md-8">
+                                            <button type="submit" class="btn blue-hoki col-md-12" id="btn-search">ดูข้อมูล <i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h4><i class="fa fa-list"></i> @ViewBag.Title <span id="text-total">0</span> รายการ</h4>
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn blue-madison pull-right margin-bottom-10 display-hide" id="btn-export">ส่งออกเป็น Excel <i class="fa fa-download"></i></button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-hover table-user-list" id="data-list">
+            <thead>
+                <tr role="row">
+                    <th class="center" style="width: 100px;">เลขที่ใบแจ้งหนี้</th>
+                    <th>รหัสลูกค้า</th>
+                    <th>ชื่อลูกค้า</th>
+                    <th>วันที่ออกใบแจ้งหนี้</th>
+                    <th>กำหนดชำระ</th>
+                    <th>จำนวนเงิน</th>
+                    <th style="width: 10px;">สถานะ</th>
+                    <th class="center" style="width: 10px;"></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<form action="javascript:;" class="form-horizontal" method="POST" id="form-save">
+    <div id="modal-form-save" class="modal fade in" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <p class="modal-title"><i class="fa fa-clone"></i> สร้างใบแจ้งหนี้</p>
+                </div>
+                <div class="modal-body">
+                    <div class="messageArea"></div>
+                    <input type="hidden" name="mode" />
+
+                    <div class="portlet light bordered" style="margin-bottom:5px !important">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="icon-doc font-grey-mint"></i>
+                                <span class="caption-subject font-grey-mint sbold uppercase"> แบบฟอร์มสร้างใบแจ้งหนี้</span> 
+                            </div>
+                            <div class="actions">
+                                <span class="font-dar">สถานะเอกสาร : </span><span class="label label-warning">สร้างเอกสารใหม่..</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><span class="required">*</span> ลูกค้า</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" name="CustomerCode"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">ที่อยู่</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" name="Address" rows="2" disabled="disabled"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">เบอร์โทรศัพท์</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="Cellular" value="" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Email</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="Email" value="" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><span class="required">*</span> Posting Date</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="PostingDate" data-date-language="th-th" value="">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn default set-date"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><span class="required">*</span> Due Date</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="DueDate" data-date-language="th-th" value="">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn default set-date"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"><span class="required">*</span> Document Date</label>
+                                        <div class="col-md-8">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control datepicker" name="DocDate" data-date-language="th-th" value="">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn default set-date"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">หมายเหตุ</label>
+                                        <div class="col-md-8">
+                                            <textarea class="form-control" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-container">
+                                    <table class="table table-hover table-edit-inline" id="table-item">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center" style="width:10px !important">#</th>
+                                                <th style="width:10px !important"></th>
+                                                <th style="width:100px !important">รหัสสินค้า</th>
+                                                <th>ชื่อสินค้า</th>
+                                                <th class="text-right" style="width:80px !important">จำนวน</th>
+                                                <th class="text-right" style="width:80px !important">ราคาต่อหน่วย</th>
+                                                <th class="text-right" style="width:80px !important">รวมเป็นเงิน</th>
+                                                <th class="text-center" style="width:10px !important"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+
+                                    <div class="table-toolbar">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="btn-group">
+                                                    <button id="btn-add-item" class="btn btn-primary">
+                                                        เพิ่มรายการสินค้า
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="row">
+                                                    <div class="col-md-8 col-md-offset-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-8 control-label">มูลค่าสินค้า (บาท)</label>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control right number" name="TotalAmt" readonly="readonly" value="0.00" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-8 col-md-offset-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-8 control-label">ภาษีมูลค่าเพิ่ม 7% (บาท)</label>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control right number" name="SumDiscountAmt" readonly="readonly" value="0.00" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-8 col-md-offset-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-8 control-label">ราคารวมภาษีมูลค่าเพิ่ม (บาท)</label>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control right number" name="NetAmt" readonly="readonly" value="0.00" autocomplete="off">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">ปิดหน้าต่าง</button>
+                    <button type="submit" class="btn green btn-save" data-loading-text="กำลังบันทึก...">บันทึกข้อมูล <i class="fa fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+<div id="modal-form-add-item" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title"><i class="icon-magnifier"></i> รายการสินค้า</h4>
+            </div>
+            <div class="modal-body">
+                <div class="messageArea"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form-horizontal form-search" role="form" action="javascript:;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <input type="text" placeholder="Search..." name="Query" class="form-control">
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-primary btn-search">ค้นหา <i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4>จำนวนสินค้าทั้งหมด <span id="table-select-item-row-total">0</span> รายการ</h4>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table class="table table-striped table-bordered table-hover" id="table-select-item">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="center" style="width: 10px;">#</th>
+                                        <th class="center" style="width: 120px;">รหัสสินค้า</th>
+                                        <th>ชื่อสินค้า</th>
+                                        <th class="text-right" style="width: 120px;">ราคาต่อหน่วย</th>
+                                        <th class="center" style="width: 20px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+@section styles{
+<style>
+    ::-ms-clear {
+        display: none;
+    }
+    .table-edit-inline.dataTable thead th {
+        background-color: #ebebeb !important;
+    }
+    .table-edit-inline.dataTable thead th, table.dataTable thead td {
+        border-bottom: 1px solid #ccc !important;
+    }
+    .table-edit-inline.dataTable tbody tr td {
+        height:32px !important;
+        padding:1px !important;
+        vertical-align: middle !important;
+    }
+    .table-edit-inline.dataTable tbody>tr input:hover,
+    .table-edit-inline.dataTable tbody>tr input:focus,
+    .table-edit-inline.dataTable tbody>tr a.add:hover {
+        outline: 2px solid #5292f7 !important;
+        outline-offset: -2px !important;
+    } 
+    .table-edit-inline.dataTable tbody>tr input {
+        height:30px !important;
+        padding-left:6px !important;
+        padding-right:6px !important;
+    } 
+</style>
+}
+@section scripts{
+
+<script>
+
+
+    var TableDatatablesEditable = function () {
+
+        var handleTable = function () {
+
+            function editRow(oTable, nRow, indexFocus) {
+                var aData = oTable.fnGetData(nRow);
+                var jqTds = $('>td', nRow);
+                jqTds[4].innerHTML = '<input type="text" class="form-control inline-edit text-right input-calulate" maxlength="6" placeholder="0.00" value="' + aData[4] + '">';
+                jqTds[5].innerHTML = '<input type="text" class="form-control inline-edit text-right input-calulate" maxlength="6" placeholder="0.00" value="' + aData[5] + '">';
+            }
+
+            var table = $('#table-item');
+            var btnNew = $('#btn-add-item');
+            var btnDelete = '<a class="btn red-mint btn-xs delete" style="vertical-align:middle;"><i class="glyphicon glyphicon-remove"></i></a>';
+            var btnSelectItem = '<a class="btn default btn-xs add" style="vertical-align:middle;"><i class="fa fa-search"></i></a>';
+
+            var oTable = table.dataTable({
+                searching: false,
+                lengthChange: false,
+                info: false,
+                paging: false,
+                ordering: false,
+                fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    var $td = $('td', nRow);
+                    $td.eq(0).text(iDisplayIndex + 1);
+                    $td.eq(0).addClass('text-center');
+                    $td.eq(1).addClass('text-center');
+                    $td.eq(4).addClass('text-right');
+                    $td.eq(5).addClass('text-right');
+                    $td.eq(6).addClass('text-right currency');
+                    $td.eq(7).addClass('text-center');
+                    return nRow;
+                }, fnDrawCallback: function (oSetting) {
+                    $('input.input-calulate, input.currency').autoNumeric('init');
+                }                      
+            });
+
+            btnNew.on('click' , function (e) {
+                e.preventDefault();
+                var aiNew = oTable.fnAddData(['', btnSelectItem, '', '', '', '', '0.00', btnDelete]);
+                var nRow = oTable.fnGetNodes(aiNew[0]);
+                editRow(oTable, nRow, 0);
+            });
+
+            table.on('click', '.delete', function (e) {
+                oTable.fnDeleteRow($(this).parents('tr')[0]);
+            });
+
+            table.on('click', '.add', function (e) {
+                var m = $('#modal-form-add-item');
+                var pos = oTable.fnGetPosition($(this).parents('tr')[0]);
+                m.attr('data-row');
+                m.data('row', pos);
+                m.modal('show');
+            });
+
+            table.on('keyup', '.input-calulate', function (e) {
+                var nRow = $(this).parents('tr')[0];
+                var jqInputs = $('input', $(this).parents('tr')[0]);
+                var total = parseFloat(jqInputs[0].value.replace(/,/g, '')) * parseFloat(jqInputs[1].value.replace(/,/g, ''));
+                oTable.fnUpdate(isNaN(total) ? 0 : total, nRow, 6, false);
+            });
+        }
+
+        return {
+            init: function () {
+                handleTable();
+            }
+        };
+
+    }();
+
+    jQuery(document).ready(function () {
+
+        TableDatatablesEditable.init();
+
+        var table = $('#data-list').dataTable({
+            searching: false,
+            lengthChange: false,
+            pageLength: parseInt('@Shared.GetPageSize()'),
+            serverSide: true,
+            info: true,
+            pagingType: 'bootstrap_full_number',
+            ajax: {
+                url: '@Url.Action("InvoiceListLoad")',
+                type: "POST",
+                data: function (d) {
+                    var form = $('#form-search').serializeArray();
+                    $.each(Enumerable.From(form).Select(function (c) { return c.name }).Distinct().ToArray(), function (i, r) {
+                        var query = Enumerable.From(form).Where(function (c) { return c.name == r }).Count();
+                        if (query > 1) {
+                            d[r] = [];
+                            var input = Enumerable.From(form).Where(function (c) { return c.name == r }).ToArray();
+                            $.each(input, function (index, element) {
+                                d[r].push(element.value);
+                            });
+                        } else {
+                            d[r] = Enumerable.From(form).Where(function (c) { return c.name == r }).FirstOrDefault().value;
+                        }
+                    });
+                },
+                beforeSend: function () {
+                    blockUI();
+                    $('.messageArea').html('');
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    if (ajaxOptions == 'parsererror') {
+                        $(location).attr('href', '@Url.Action("Logout", "Home")');
+                    } else {
+                        error("Opp ! " + Custom.escapeHtmlEntities(thrownError));
+                    }
+                },
+                complete: function () {
+                    unblockUI();
+                }
+            },
+            columns: [
+                {
+                    data: "DocNum",
+                    sClass: "center"
+                },
+                {
+                    data: "CardCode",
+                    sClass: "center"
+                },
+                {
+                    data: "CardName"
+                },
+                {
+                    data: null,
+                    sClass: "center",
+                    render: function (o) { return o.CreateDate.substring(0, 10); }
+                },
+                {
+                    data: null,
+                    sClass: "center",
+                    render: function (o) { return o.DocDueDate.substring(0, 10); }
+                },
+                {
+                    data: "DocTotal",
+                    sClass: "right",
+                    render: function (o) { return $.number(o, 2); }
+                },
+                {
+                    data: null,
+                    sClass: "center",
+                    render: function (o) { return '<span class="label label-sm ' + (o.DocStatus == 'O' ? 'bg-green-meadow' : 'bg-grey-silver') + '">' + (o.DocStatus == 'O' ? 'Open' : 'Cancel') + '</span>'; }
+                },
+                {
+                    data: "DocNum",
+                    sClass: "center",
+                    bSortable: false,
+                    render: function (o) { return '<a class="btn btn-info btn-xs edit" href="javascript:;"><i class="fa fa-search"></i></a>'; }
+                }
+            ],
+            order: [
+                [0, "desc"]
+            ],
+            fnDrawCallback: function (oSetting) {
+                var info = this.api().page.info();
+                $('#text-total').html($.number((info.recordsTotal)));
+                var pageInfo = '';
+                if (info.recordsTotal > 0) {
+                    $('#btn-export').show();
+                    pageInfo = 'หน้า ' + $.number((info.page + 1)) + '/' + $.number(info.pages) + ' แสดงลำดับที่ ' + $.number((info.start + 1)) + ' ถึง ' + $.number(((info.start + info.length) <= info.recordsTotal ? info.start + info.length : info.recordsTotal)) + ' จาก ' + $.number(info.recordsTotal) + ' รายการ';
+                } else {
+                    $('#btn-export').hide();
+                    pageInfo = '';
+                }
+                $('#data-list_wrapper #data-list_info').html(pageInfo);
+                $('.tooltips').tooltip({ container: 'body' });
+
+            },
+            fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                var sDirectionClass;
+                if (aData.Activated == false)
+                    sDirectionClass = "not-activate";
+                $(nRow).addClass(sDirectionClass);
+                return nRow;
+            }
+        });
+
+        var resetForm = function () {
+            $('.messageArea').html('');
+            var validator = $("#form-save").validate();
+            validator.resetForm();
+            $("#form-save")[0].reset();
+            $.each($('.has-error'), function (i, e) {
+                $(e).removeClass('has-error');
+            });
+
+            $('#modal-form-save select').val('').trigger("change");
+            $('#modal-form-save input').val('');
+
+            $('input[name="PostingDate"]').val('@currentDate');
+            $('input[name="DueDate"]').val('@dueDate');
+            $('input[name="DocDate"]').val('@currentDate');
+        }
+
+        $('#btn-add').click(function () {
+            resetForm();
+            $('input[name="mode"]').val(0);
+            $('#modal-form-save').modal('show');
+        });
+
+        $('#form-search button[type="submit"]').click(function () {
+            var form = $('#form-search');
+            form.attr('action', '@action');
+            table.fnDraw();
+            return false;
+        });
+
+        $('#btn-export').click(function () {
+            var form = $('#form-search');
+            form.attr('action', '@Url.Action("CustomerExport")');
+            $('#form-search').submit();
+        });
+
+        function format(state) {
+            if (!state.id) { return state.text; }
+            var $state = $(
+              '<span class="' + $(state.element).data('style') + '" style="margin-top: 1px; margin-bottom:2px;">' + state.text + '</span>'
+            );
+            return $state;
+        };
+
+        $('select[name="Status"].select2').select2({
+            minimumResultsForSearch: Infinity,
+            templateSelection: format,
+            templateResult: format
+        });
+
+        $('select[name="CustomerCode"]').select2({
+            placeholder: '<i class="fa fa-search"></i> ค้นหาด้วย รหัส หรือ ชื่อลูกค้า..',
+            allowClear: true,
+            minimumInputLength: 1,
+            multiple: false,
+            width: null,
+            ajax: {
+                url: '@Url.Action("InvoiceGetCustomerList")',
+                dataType: 'json',
+                traditional: true,
+                data: function (params) {
+                    return {
+                        query: params.term,
+                        limit: 100
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data
+                    };
+                }
+            },
+            templateResult: function (data) {
+                return (data.id != undefined && data.text != undefined ? data.id + ' ' + data.text : '');
+            },
+            templateSelection: function (data) {
+                return (data.id != undefined && data.text != undefined ? data.id + ' ' + data.text : '');
+            },
+            dropdownCssClass: "bigdrop",
+            escapeMarkup: function (m) {
+                return m;
+            }
+        });
+
+        $('select[name="CustomerCode"]').change(function () {
+
+            $('textarea[name="Address"]').text('');
+            $('input[name="Cellular"]').val('');
+            $('input[name="Email"]').val('');
+
+            var data = $(this).select2('data')[0];
+
+            if (data !== undefined) {
+                $('textarea[name="Address"]').text(data.address);
+                $('input[name="Cellular"]').val(data.cellular);
+                $('input[name="Email"]').val(data.email);
+            }
+        });
+
+        $('#modal-form-add-item').on('shown.bs.modal', function () {
+            tableSearchItemSetup();
+        });
+
+        // Form Add Item
+        var $tableSelectItem = $("#table-select-item").dataTable();
+        var tableSearchItemSetup = function () {
+            $tableSelectItem.fnDestroy();
+            $tableSelectItem.dataTable({
+                searching: false,
+                lengthChange: false,
+                pageLength: 30,
+                serverSide: true,
+                info: true,
+                ajax: {
+                    url: '@Url.Action("InvoiceGetInventoryItem")',
+                    type: "POST",
+                    data: function (d) {
+                        return $('#modal-form-add-item .form-search').serializeArray().reduce(function (a, x) {
+                            d[x.name] = x.value;
+                            return d;
+                        }, {});
+                    },
+                    beforeSend: function () {
+                        blockUI();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        if (ajaxOptions == 'parsererror') {
+                            $(location).attr('href', '@Url.Action("Index", "Home")');
+                        } else {
+                            error("Opp ! " + Custom.escapeHtmlEntities(thrownError));
+                        }
+                    },
+                    complete: function () {
+                        unblockUI();
+                    }
+                },
+                columns: [
+                    { data: null, sClass: "center", bSortable: false },
+                    { data: "ItemCode", sClass: "center" },
+                    { data: "ItemName" },
+                    { data: "UnitPrice", sClass: "center" },
+                    {
+                        data: "ItemCode",
+                        sClass: "center",
+                        bSortable: false,
+                        render: function (o) { return '<a class="btn blue btn-xs select" href="javascript:;">เลือก</a>'; }
+                    }
+                ],
+                order: [
+                    [1, "desc"]
+                ],
+                fnDrawCallback: function (oSettings) {
+                    var info = this.api().page.info();
+                    $('#' + $(this).attr('id') + '-row-total').html($.number((info.recordsTotal)));
+                    var pageInfo = '';
+                    if (info.recordsTotal > 0) {
+                        pageInfo = 'หน้า ' + $.number((info.page + 1)) + '/' + $.number(info.pages) + ' แสดงลำดับที่ ' + $.number((info.start + 1)) + ' ถึง ' + $.number(((info.start + info.length) <= info.recordsTotal ? info.start + info.length : info.recordsTotal)) + ' จาก ' + $.number(info.recordsTotal) + ' รายการ';
+                    } else {
+                        pageInfo = '';
+                    }
+                    $('#' + $(this).attr('id') + '_info').html(pageInfo);
+                },
+                fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    var info = this.api().page.info();
+                    var td = $('td', nRow);
+                    td.eq(0).text(info.start + 1);
+                    return nRow;
+                }
+            });
+
+            $('#modal-form-add-item .form-search').submit(function () {
+                $tableSelectItem.fnDraw();
+            });
+
+            $('#modal-form-add-item input').keypress(function (e) {
+                if (e.which == 13) {
+                    $tableSelectItem.fnDraw();
+                    return false;
+                }
+            });
+
+            $tableSelectItem.on('click', '.select', function (e) {
+                var m = $('#modal-form-add-item');
+                var data = $tableSelectItem.fnGetData($(this).parents('tr')[0]);
+                var rows = $('tr', $('#table-item'));
+                var td = $('td', rows.eq(m.data('row')+1));
+                td.eq(2).text(data.ItemCode);
+                td.eq(3).text(data.ItemName);
+                m.modal('hide');
+            });
+        };
+    });
+</script>
+}

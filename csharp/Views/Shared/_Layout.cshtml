@@ -1,0 +1,151 @@
+﻿@{
+    string controller = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["controller"];
+    string action = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["action"];
+    string value = (string)System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["id"];
+    var permission = Shared.UserPermission();
+    var userLogon = Shared.GetUserLogon();
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Sinet Management @(!string.IsNullOrEmpty(ViewBag.Title) ? " | " + ViewBag.Title : "")</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <script src="~/assets/global/plugins/pace/pace.min.js" type="text/javascript"></script>
+    <link href="~/assets/global/plugins/pace/themes/pace-theme-flash.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/datatables/datatables.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/select2/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/plugins/ios-overlay/css/iosOverlay.css" rel="stylesheet" />
+    <link href="~/assets/global/plugins/ios-overlay/css/prettify.css" rel="stylesheet" />
+    <link href="~/assets/global/css/components.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/layouts/layout/css/layout.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/css")
+    @RenderSection("styles", required: false)
+    <link rel="shortcut icon" href="~/sinet.ico" />
+</head>
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white page-footer-fixed">
+    <div class="page-header navbar navbar-fixed-top">
+        <div class="page-header-inner ">
+            <div class="page-logo">
+                <a href="@Url.Content(Shared.MainUrl)">
+                    <img src="~/assets/layouts/layout/img/sinet-logo.png" alt="logo" class="logo-default" />
+                </a>
+                <div class="menu-toggler sidebar-toggler"> </div>
+            </div>
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                            @{
+                                var user = Shared.GetUserLogon();
+
+                                string firstName = string.Empty;
+                                string picturePath = "~/assets/uploads/users/default.jpg";
+                                if (user != null)
+                                {
+                                    if (string.IsNullOrEmpty(user.Photo))
+                                    {
+                                        user.Photo = "default.jpg";
+                                    }
+
+                                    var path = "~/assets/uploads/users/" + user.Photo;
+                                    if (System.IO.File.Exists(HttpContext.Current.Server.MapPath(path)))
+                                    {
+                                        picturePath = path;
+                                    }
+                                    firstName = user.FirstName + " " + user.LastName;
+                                }
+                            }
+                            <img alt="" class="img-circle" src="@Url.Content(picturePath)" />
+                            <span class="username username-hide-on-mobile"> @firstName </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            @*@if (permission.Permission.Exists(p => p.StartsWith("setting")))
+                            {
+                                <li><a href="@Url.Action("Index", "Setting")"><i class="icon-settings"></i> การตั้งค่า</a></li>
+                                <li class="divider"> </li>
+                            }
+                            <li>
+                                <a href="javascript:;"><i class="icon-user"></i> ข้อมูลส่วนตัว</a>
+                            </li>*@
+                            <li><a href="@Url.Action("Logout","Home",new {Area = ""})"><i class="icon-key"></i> ออกจากระบบ</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"> </div>
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar-collapse collapse">
+                <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" style="padding-top: 0">
+                    @Html.Partial(controller.ToLower() != "setting" ? "_MenuWorking" : "_MenuSetting", new ViewDataDictionary(ViewBag))
+                </ul>
+            </div>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+        <div class="page-footer-inner">
+            @DateTime.Now.Year.ToString() &copy; Simat Technologies PCL. <span class="hidden-xs">Version @Shared.AssemblyVersion Made with ❤</span>
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+    </div>
+    <!-- END FOOTER -->
+    <!--[if lt IE 9]>
+    <script src="~/assets/global/plugins/respond.min.js"></script>
+    <script src="~/assets/global/plugins/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="~/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/ios-overlay/js/iosOverlay.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/ios-overlay/js/spin.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/ios-overlay/js/prettify.js" type="text/javascript"></script>
+    <script src="~/assets/global/scripts/app.min.js" type="text/javascript"></script>
+    <script src="~/assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+    <script src="~/assets/global/plugins/datatables/datatables.min.js"></script>
+    <script src="~/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js" type="text/javascript" ></script>
+    <script src="~/assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script src="~/assets/global/plugins/bootbox/bootbox.min.js"></script>
+    <script src="~/assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js"></script>
+    <script src="~/assets/global/plugins/jquery-number/jquery.number.min.js"></script>
+    <script src="~/assets/global/plugins/linq.js/linq.min.js"></script>
+    <script src="~/assets/global/plugins/bootstrap-datepicker-thai/js/bootstrap-datepicker.js"></script>
+    <script src="~/assets/global/plugins/bootstrap-datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+    <script src="~/assets/global/plugins/bootstrap-datepicker-thai/js/locales/bootstrap-datepicker.th.js"></script>
+    <script src="~/assets/global/plugins/autoNumeric-2.0/autoNumeric-2.0.js"></script>
+    @Scripts.Render("~/script")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

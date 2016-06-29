@@ -1,0 +1,67 @@
+﻿@{
+    string controller = System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+    string action = System.Web.HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString().ToLower();
+    string currentPage = controller + "-" + action;
+    string[] active;
+    var permission = Shared.UserPermission();
+}
+
+<li class="heading">
+    <h3 class="uppercase">Main Menu</h3>
+</li>
+@if (permission.Permission.Count(p => p.StartsWith("customer")) > 0)
+{
+    active = new[] { "index" };
+    <li class="nav-item start @(active.Contains(action) && controller == "customer" ? "active oppen" : "")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="icon-users"></i>
+            <span class="title">ข้อมูลลูกค้า</span>
+            @if (active.Contains(action) && controller == "customer")
+            {
+                <span class="selected"></span>
+                <span class="arrow open"></span>
+            }
+            else
+            {
+                <span class="arrow"></span>
+            }
+        </a>
+        <ul class="sub-menu">
+            @if (permission.Permission.Exists(p => p == "customer_list"))
+            {
+                <li class="nav-item @(action.Equals("Index", StringComparison.OrdinalIgnoreCase) && controller.Equals("Customer", StringComparison.OrdinalIgnoreCase) ? "active open" : "")">
+                    <a href="@Url.Action("Index", "Customer")" class="nav-link ">
+                        <span class="title">รายชื่อลูกค้า</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </li>
+    active = new[] { "index" };
+    <li class="nav-item start @(active.Contains(action) && controller == "invoice" ? "active oppen" : "")">
+        <a href="javascript:;" class="nav-link nav-toggle">
+            <i class="icon-docs"></i>
+            <span class="title">ข้อมูลใบแจ้งหนี้</span>
+            @if (active.Contains(action) && controller == "invoice")
+            {
+                <span class="selected"></span>
+                <span class="arrow open"></span>
+            }
+            else
+            {
+                <span class="arrow"></span>
+            }
+        </a>
+        <ul class="sub-menu">
+            @if (permission.Permission.Exists(p => p == "customer_list"))
+            {
+                <li class="nav-item @(action.Equals("Index", StringComparison.OrdinalIgnoreCase) && controller.Equals("Invoice", StringComparison.OrdinalIgnoreCase) ? "active open" : "")">
+                    <a href="@Url.Action("Index", "Invoice")" class="nav-link ">
+                        <span class="title">รายการใบแจ้งหนี้</span>
+                    </a>
+                </li>
+            }
+        </ul>
+
+    </li>
+}
